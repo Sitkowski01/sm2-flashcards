@@ -14,6 +14,13 @@
   </div>
 
   @if (statystyki(); as s) {
+    @if (s.wszystkie === 0) {
+      <p class="wskazowka">
+        Ta talia jest pusta. Zacznij od <b>wygenerowania fiszek z tekstu</b> poniżej
+        albo dopisz pierwszą kartę ręcznie — dopiero wtedy będzie co powtarzać.
+      </p>
+    }
+
     <div class="kafelki">
       <div class="karta kafelek"><b>{{ s.wszystkie }}</b><span>kart</span></div>
       <div class="karta kafelek"><b class="akcent">{{ s.doPowtorki }}</b><span>na teraz</span></div>
@@ -39,13 +46,23 @@
     ></textarea>
 
     <div class="rzad">
-      <button class="przycisk" type="button" (click)="generuj()" [disabled]="pracuje() || !tekst().trim()">
+      <button class="przycisk glowny" type="button" (click)="generuj()" [disabled]="pracuje()">
         {{ pracuje() ? 'Pracuję…' : 'Generuj propozycje' }}
       </button>
-      @if (komunikat()) { <span class="komunikat">{{ komunikat() }}</span> }
+      <button class="przycisk cichy" type="button" (click)="wstawPrzykladowyTekst()">
+        Wstaw przykładowy tekst
+      </button>
     </div>
 
+    @if (komunikat()) {
+      <p class="komunikat">{{ komunikat() }}</p>
+    }
+
     @if (propozycje().length) {
+      <p class="krok">
+        Znalezione fiszki — usuń krzyżykiem te, których nie chcesz,
+        a resztę zatwierdź przyciskiem na dole.
+      </p>
       <ul class="propozycje">
         @for (p of propozycje(); track p.przod; let i = $index) {
           <li>

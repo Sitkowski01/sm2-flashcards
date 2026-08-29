@@ -1,12 +1,16 @@
 <h1>Talie</h1>
-<p class="cichy">
-  Każda karta wraca wtedy, kiedy zaczynasz ją zapominać — odstęp wylicza SM-2.
-</p>
+
+<ol class="jak-to-dziala">
+  <li><b>Zbierz karty</b> — wklej tekst, a aplikacja wyciągnie z niego fiszki. Albo dopisz je ręcznie.</li>
+  <li><b>Powtarzaj</b> — pytanie, spacja odkrywa odpowiedź, klawisze 1–4 oceniają.</li>
+  <li><b>Wróć jutro</b> — algorytm SM-2 sam ustala, kiedy każda karta ma się pokazać ponownie.
+    Im pewniej ją znasz, tym rzadziej ją zobaczysz.</li>
+</ol>
 
 <form class="karta formularz" (submit)="$event.preventDefault(); dodaj()">
   <div class="pola">
     <label>
-      <span>Nazwa talii</span>
+      <span>Nazwa nowej talii</span>
       <input
         [ngModel]="nazwa()"
         (ngModelChange)="nazwa.set($event)"
@@ -21,13 +25,13 @@
     </label>
   </div>
   <button class="przycisk glowny" type="submit" [disabled]="!nazwa().trim()">
-    Dodaj talię
+    Dodaj talię i przejdź do kart
   </button>
 </form>
 
 @if (magazyn.pusty()) {
   <div class="pusto">
-    <p>Nie ma jeszcze żadnej talii.</p>
+    <p>Nie ma żadnej talii.</p>
     <button class="przycisk" type="button" (click)="wczytajPrzyklady()">
       Wczytaj przykładowe talie
     </button>
@@ -44,21 +48,29 @@
 
           @if (statystyki(talia.id); as s) {
             <p class="liczby">
-              <span>{{ s.wszystkie }} kart</span>
-              @if (s.doPowtorki) {
-                <span class="teraz">{{ s.doPowtorki }} na teraz</span>
+              @if (s.wszystkie === 0) {
+                <span class="pusta">talia bez kart</span>
               } @else {
-                <span class="cichy">nic na teraz</span>
-              }
-              @if (s.zalegle) {
-                <span class="zalegle">{{ s.zalegle }} zaległych</span>
+                <span>{{ s.wszystkie }} kart</span>
+                @if (s.doPowtorki) {
+                  <span class="teraz">{{ s.doPowtorki }} na teraz</span>
+                } @else {
+                  <span class="cichy">nic na teraz</span>
+                }
+                @if (s.zalegle) {
+                  <span class="zalegle">{{ s.zalegle }} zaległych</span>
+                }
               }
             </p>
           }
         </div>
 
         <div class="akcje">
-          <a class="przycisk glowny" [routerLink]="['/talia', talia.id, 'powtorka']">Powtarzaj</a>
+          @if (akcja(talia.id); as a) {
+            <a class="przycisk" [class.glowny]="a.glowna" [routerLink]="a.trasa">
+              {{ a.etykieta }}
+            </a>
+          }
           <button class="przycisk cichy" type="button" (click)="usun(talia.id, talia.nazwa)">
             Usuń
           </button>
