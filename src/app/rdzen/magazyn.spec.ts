@@ -9,8 +9,13 @@ const TERAZ = new Date('2026-03-01T10:00:00.000Z');
 describe('Magazyn', () => {
   let magazyn: Magazyn;
 
+  const KLUCZ = 'recall-lab/talie/v1';
+
   beforeEach(() => {
-    globalThis.localStorage?.clear();
+    // Pusta tablica, a nie brak klucza: brak klucza to pierwsze wejscie,
+    // ktore celowo wczytuje przykladowe talie. Testy zachowania startuja
+    // od czystego stanu, zeby liczby w asercjach byly jednoznaczne.
+    globalThis.localStorage?.setItem(KLUCZ, '[]');
     TestBed.configureTestingModule({});
     magazyn = TestBed.inject(Magazyn);
   });
@@ -26,9 +31,30 @@ describe('Magazyn', () => {
     return magazyn.talia(talia.id)!;
   }
 
-  it('startuje pusty', () => {
-    expect(magazyn.talie()).toEqual([]);
-    expect(magazyn.pusty()).toBe(true);
+  it('na pierwszym wejściu wczytuje przykładowe talie', () => {
+    // Pusty ekran na starcie czytał się jak zepsuta aplikacja — użytkownik
+    // testowy uznał, że nic nie działa, mimo widocznego przycisku.
+    globalThis.localStorage?.removeItem(KLUCZ);
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+
+    const swiezy = TestBed.inject(Magazyn);
+
+    expect(swiezy.talie().length).toBeGreaterThan(0);
+    expect(swiezy.pusty()).toBe(false);
+    expect(swiezy.doPowtorkiRazem()).toBeGreaterThan(0);
+  });
+
+  it('skasowanie wszystkich talii nie odtwarza przykładów', () => {
+    // Decyduje obecność klucza, nie długość listy — inaczej użytkownik
+    // nie mógłby świadomie zostać z pustą aplikacją.
+    magazyn.dodajTalie('Do skasowania');
+    for (const t of [...magazyn.talie()]) magazyn.usunTalie(t.id);
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+
+    expect(TestBed.inject(Magazyn).talie()).toEqual([]);
   });
 
   it('dodaje talię i nadaje jej identyfikator', () => {

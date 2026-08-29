@@ -7,7 +7,7 @@ import { Magazyn } from './rdzen/magazyn';
 
 describe('App', () => {
   beforeEach(async () => {
-    globalThis.localStorage?.clear();
+    globalThis.localStorage?.setItem('recall-lab/talie/v1', '[]');
     TestBed.resetTestingModule();
     await TestBed.configureTestingModule({
       imports: [App],
