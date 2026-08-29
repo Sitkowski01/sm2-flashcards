@@ -141,6 +141,11 @@ npm run build      # build produkcyjny
 | CI | GitHub Actions — testy i build |
 | Wdrożenie | Vercel (produkcja) + GitHub Pages |
 
+## Przed rozmową
+
+[](ANGULAR-DLA-REACTOWCA.md) — różnice Angular kontra React
+z odnośnikami do konkretnych linii w tym repozytorium i dziesięcioma pytaniami kontrolnymi.
+
 ## Co dalej
 
 - Synchronizacja między urządzeniami — dziś dane zostają w przeglądarce
