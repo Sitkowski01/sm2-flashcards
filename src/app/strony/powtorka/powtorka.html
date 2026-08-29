@@ -1,0 +1,59 @@
+@if (talia(); as t) {
+  <a [routerLink]="['/talia', t.id]" class="powrot">← {{ t.nazwa }}</a>
+
+  @if (!wszystkie()) {
+    <div class="pusto">
+      <p>Nic tu teraz nie czeka na powtórkę.</p>
+      <p class="cichy">Wróć, gdy minie termin kolejnej karty.</p>
+      <a class="przycisk" [routerLink]="['/talia', t.id]">Wróć do talii</a>
+    </div>
+  } @else if (koniec()) {
+    <div class="podsumowanie karta">
+      <h1>Koniec sesji</h1>
+      <p class="cichy">Wszystkie karty z tej tury mają nowe terminy.</p>
+
+      <div class="wyniki">
+        <div><b>{{ ocenione() }}</b><span>ocenionych</span></div>
+        <div><b class="dobrze">{{ ocenione() - pomylki() }}</b><span>trafionych</span></div>
+        <div><b class="zle">{{ pomylki() }}</b><span>do powtórki</span></div>
+      </div>
+
+      <div class="rzad">
+        <button class="przycisk" type="button" (click)="odNowa()">Sprawdź, czy coś zostało</button>
+        <a class="przycisk glowny" [routerLink]="['/talia', t.id]">Wróć do talii</a>
+      </div>
+    </div>
+  } @else {
+    <div class="postep" role="progressbar" [attr.aria-valuenow]="postep()" aria-valuemin="0" aria-valuemax="100">
+      <span [style.width.%]="postep()"></span>
+    </div>
+    <p class="licznik cichy">Karta {{ pozycja() + 1 }} z {{ wszystkie() }}</p>
+
+    @if (biezaca(); as karta) {
+      <article class="karta fiszka" [class.odkryta]="odkryta()">
+        <p class="przod">{{ karta.przod }}</p>
+
+        @if (odkryta()) {
+          <hr />
+          <p class="tyl">{{ karta.tyl }}</p>
+        }
+      </article>
+
+      @if (!odkryta()) {
+        <button class="przycisk glowny szeroki" type="button" (click)="odkryj()">
+          Pokaż odpowiedź <kbd>spacja</kbd>
+        </button>
+      } @else {
+        <div class="oceny">
+          @for (o of oceny; track o.ocena) {
+            <button class="przycisk ocena" type="button" (click)="ocen(o.ocena)">
+              {{ o.etykieta }} <kbd>{{ o.klawisz }}</kbd>
+            </button>
+          }
+        </div>
+      }
+    }
+  }
+} @else {
+  <p class="pusto">Nie ma takiej talii. <a routerLink="/">Wróć do listy</a>.</p>
+}

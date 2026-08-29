@@ -1,0 +1,69 @@
+<h1>Talie</h1>
+<p class="cichy">
+  Każda karta wraca wtedy, kiedy zaczynasz ją zapominać — odstęp wylicza SM-2.
+</p>
+
+<form class="karta formularz" (submit)="$event.preventDefault(); dodaj()">
+  <div class="pola">
+    <label>
+      <span>Nazwa talii</span>
+      <input
+        [ngModel]="nazwa()"
+        (ngModelChange)="nazwa.set($event)"
+        name="nazwa"
+        placeholder="np. Angular — pytania rekrutacyjne"
+        required
+      />
+    </label>
+    <label>
+      <span>Opis <em class="cichy">(opcjonalnie)</em></span>
+      <input [ngModel]="opis()" (ngModelChange)="opis.set($event)" name="opis" />
+    </label>
+  </div>
+  <button class="przycisk glowny" type="submit" [disabled]="!nazwa().trim()">
+    Dodaj talię
+  </button>
+</form>
+
+@if (magazyn.pusty()) {
+  <div class="pusto">
+    <p>Nie ma jeszcze żadnej talii.</p>
+    <button class="przycisk" type="button" (click)="wczytajPrzyklady()">
+      Wczytaj przykładowe talie
+    </button>
+  </div>
+} @else {
+  <ul class="lista">
+    @for (talia of magazyn.talie(); track talia.id) {
+      <li class="karta pozycja">
+        <div class="opis">
+          <a [routerLink]="['/talia', talia.id]" class="nazwa">{{ talia.nazwa }}</a>
+          @if (talia.opis) {
+            <p class="cichy">{{ talia.opis }}</p>
+          }
+
+          @if (statystyki(talia.id); as s) {
+            <p class="liczby">
+              <span>{{ s.wszystkie }} kart</span>
+              @if (s.doPowtorki) {
+                <span class="teraz">{{ s.doPowtorki }} na teraz</span>
+              } @else {
+                <span class="cichy">nic na teraz</span>
+              }
+              @if (s.zalegle) {
+                <span class="zalegle">{{ s.zalegle }} zaległych</span>
+              }
+            </p>
+          }
+        </div>
+
+        <div class="akcje">
+          <a class="przycisk glowny" [routerLink]="['/talia', talia.id, 'powtorka']">Powtarzaj</a>
+          <button class="przycisk cichy" type="button" (click)="usun(talia.id, talia.nazwa)">
+            Usuń
+          </button>
+        </div>
+      </li>
+    }
+  </ul>
+}

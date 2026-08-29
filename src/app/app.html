@@ -1,0 +1,20 @@
+<header class="pasek">
+  <a routerLink="/" class="marka">
+    <span class="znak">◧</span>
+    <span>Recall<strong>Lab</strong></span>
+  </a>
+
+  @if (magazyn.doPowtorkiRazem(); as ile) {
+    <span class="licznik" [attr.aria-label]="ile + ' kart czeka na powtórkę'">
+      {{ ile }} do powtórki
+    </span>
+  }
+</header>
+
+<main class="tresc">
+  <router-outlet />
+</main>
+
+<footer class="stopka">
+  Powtórki rozłożone w czasie algorytmem SM-2 · dane zostają w tej przeglądarce
+</footer>

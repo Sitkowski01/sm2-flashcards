@@ -1,0 +1,134 @@
+.powrot {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.postep {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--tlo-karta);
+  overflow: hidden;
+}
+
+.postep span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--akcent-ciemny), var(--akcent));
+  transition: width 0.25s ease;
+}
+
+.licznik {
+  font-size: 0.85rem;
+  margin: 0.5rem 0 1.25rem;
+}
+
+.fiszka {
+  display: grid;
+  place-items: center;
+  gap: 1rem;
+  min-height: 240px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  box-shadow: var(--cien);
+}
+
+.fiszka hr {
+  width: 60%;
+  border: none;
+  border-top: 1px solid var(--obrys);
+  margin: 0;
+}
+
+.przod {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.tyl {
+  margin: 0;
+  color: var(--tekst-cichy);
+  font-size: 1.05rem;
+  max-width: 52ch;
+}
+
+.szeroki {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem;
+}
+
+.oceny {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.ocena {
+  padding: 0.75rem 0.5rem;
+}
+
+kbd {
+  display: inline-block;
+  margin-left: 0.4rem;
+  border: 1px solid var(--obrys);
+  border-radius: 6px;
+  padding: 0 0.35rem;
+  font-size: 0.75rem;
+  color: var(--tekst-cichy);
+}
+
+.podsumowanie {
+  text-align: center;
+  display: grid;
+  gap: 1rem;
+  padding: 2rem 1.5rem;
+}
+
+.wyniki {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.wyniki div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.wyniki b {
+  font-size: 1.8rem;
+}
+
+.wyniki span {
+  color: var(--tekst-cichy);
+  font-size: 0.8rem;
+}
+
+.dobrze {
+  color: var(--akcent);
+}
+
+.zle {
+  color: var(--ostrzezenie);
+}
+
+.podsumowanie .rzad {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.podsumowanie a {
+  text-decoration: none;
+}
+
+.pusto a {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+}

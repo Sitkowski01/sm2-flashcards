@@ -1,0 +1,115 @@
+@if (talia(); as t) {
+  <a routerLink="/" class="powrot">← wszystkie talie</a>
+
+  <div class="naglowek">
+    <div>
+      <h1>{{ t.nazwa }}</h1>
+      @if (t.opis) { <p class="cichy">{{ t.opis }}</p> }
+    </div>
+    @if (statystyki()!.doPowtorki) {
+      <a class="przycisk glowny" [routerLink]="['/talia', t.id, 'powtorka']">
+        Powtarzaj ({{ statystyki()!.doPowtorki }})
+      </a>
+    }
+  </div>
+
+  @if (statystyki(); as s) {
+    <div class="kafelki">
+      <div class="karta kafelek"><b>{{ s.wszystkie }}</b><span>kart</span></div>
+      <div class="karta kafelek"><b class="akcent">{{ s.doPowtorki }}</b><span>na teraz</span></div>
+      <div class="karta kafelek"><b>{{ s.nowe }}</b><span>nowych</span></div>
+      <div class="karta kafelek">
+        <b>{{ s.sredniaLatwosc || '—' }}</b><span>śr. współczynnik</span>
+      </div>
+    </div>
+  }
+
+  <section class="karta sekcja">
+    <h2>Wygeneruj fiszki z tekstu</h2>
+    <p class="cichy">
+      Wklej notatkę albo fragment dokumentacji. Źródło propozycji:
+      <strong>{{ nazwaGeneratora }}</strong>.
+    </p>
+
+    <textarea
+      rows="5"
+      [ngModel]="tekst()"
+      (ngModelChange)="tekst.set($event)"
+      placeholder="np. Sygnał to obiekt trzymający wartość. Computed to sygnał wyliczany z innych."
+    ></textarea>
+
+    <div class="rzad">
+      <button class="przycisk" type="button" (click)="generuj()" [disabled]="pracuje() || !tekst().trim()">
+        {{ pracuje() ? 'Pracuję…' : 'Generuj propozycje' }}
+      </button>
+      @if (komunikat()) { <span class="komunikat">{{ komunikat() }}</span> }
+    </div>
+
+    @if (propozycje().length) {
+      <ul class="propozycje">
+        @for (p of propozycje(); track p.przod; let i = $index) {
+          <li>
+            <div>
+              <b>{{ p.przod }}</b>
+              <p class="cichy">{{ p.tyl }}</p>
+            </div>
+            <button class="przycisk cichy" type="button" (click)="odrzuc(i)" aria-label="Odrzuć">✕</button>
+          </li>
+        }
+      </ul>
+      <button class="przycisk glowny" type="button" (click)="przyjmijPropozycje()">
+        Dodaj {{ propozycje().length }} kart do talii
+      </button>
+    }
+  </section>
+
+  <section class="karta sekcja">
+    <h2>Dodaj kartę ręcznie</h2>
+    <form class="pola" (submit)="$event.preventDefault(); dodajKarte()">
+      <label>
+        <span>Przód</span>
+        <input [ngModel]="przod()" (ngModelChange)="przod.set($event)" name="przod" />
+      </label>
+      <label>
+        <span>Tył</span>
+        <input [ngModel]="tyl()" (ngModelChange)="tyl.set($event)" name="tyl" />
+      </label>
+      <button class="przycisk" type="submit" [disabled]="!przod().trim() || !tyl().trim()">
+        Dodaj
+      </button>
+    </form>
+  </section>
+
+  <section class="sekcja">
+    <div class="rzad rozsun">
+      <h2>Karty ({{ t.karty.length }})</h2>
+      @if (t.karty.length) {
+        <button class="przycisk cichy" type="button" (click)="zerujPostep()">Wyzeruj postęp</button>
+      }
+    </div>
+
+    @if (!t.karty.length) {
+      <p class="pusto">Talia jest pusta. Wygeneruj karty z tekstu albo dodaj je ręcznie.</p>
+    } @else {
+      <ul class="karty">
+        @for (k of t.karty; track k.id) {
+          <li class="karta">
+            <div>
+              <b>{{ k.przod }}</b>
+              <p class="cichy">{{ k.tyl }}</p>
+              <p class="meta">
+                @if (k.zrodlo === 'wygenerowana') { <span class="znacznik">wygenerowana</span> }
+                <span>powtórzeń: {{ k.stan.powtorzenia }}</span>
+                <span>współczynnik: {{ k.stan.latwosc }}</span>
+                <span>odstęp: {{ k.stan.odstepDni }} dni</span>
+              </p>
+            </div>
+            <button class="przycisk cichy" type="button" (click)="usunKarte(k.id)" aria-label="Usuń kartę">✕</button>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+} @else {
+  <p class="pusto">Nie ma takiej talii. <a routerLink="/">Wróć do listy</a>.</p>
+}

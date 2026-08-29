@@ -1,0 +1,125 @@
+/* Paleta i typografia — jedno miejsce, komponenty tylko z niej korzystają. */
+:root {
+  --tlo: #0b1020;
+  --tlo-karta: #131a30;
+  --tlo-karta-2: #1a2340;
+  --obrys: #26314f;
+  --tekst: #e8ecf8;
+  --tekst-cichy: #97a1c0;
+  --akcent: #5eead4;
+  --akcent-ciemny: #0f766e;
+  --ostrzezenie: #fbbf24;
+  --blad: #f87171;
+  --promien: 14px;
+  --cien: 0 10px 30px rgb(2 6 23 / 45%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1100px 500px at 15% -10%, #16224a 0%, transparent 60%),
+    var(--tlo);
+  color: var(--tekst);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+}
+
+a {
+  color: var(--akcent);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Wspolne klasy uzywane przez wiecej niz jeden ekran. */
+.przycisk {
+  border: 1px solid var(--obrys);
+  background: var(--tlo-karta-2);
+  color: var(--tekst);
+  border-radius: 10px;
+  padding: 0.55rem 0.95rem;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.przycisk:hover {
+  border-color: var(--akcent-ciemny);
+}
+
+.przycisk:active {
+  transform: translateY(1px);
+}
+
+.przycisk.glowny {
+  background: linear-gradient(180deg, var(--akcent) 0%, #2dd4bf 100%);
+  border-color: transparent;
+  color: #04231f;
+  font-weight: 650;
+}
+
+.przycisk.cichy {
+  background: transparent;
+  color: var(--tekst-cichy);
+}
+
+.przycisk:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--akcent);
+  outline-offset: 2px;
+}
+
+input,
+textarea {
+  width: 100%;
+  background: var(--tlo);
+  border: 1px solid var(--obrys);
+  border-radius: 10px;
+  color: var(--tekst);
+  font: inherit;
+  padding: 0.6rem 0.75rem;
+}
+
+.karta {
+  background: var(--tlo-karta);
+  border: 1px solid var(--obrys);
+  border-radius: var(--promien);
+  padding: 1.1rem 1.25rem;
+}
+
+.cichy {
+  color: var(--tekst-cichy);
+}
+
+.pusto {
+  border: 1px dashed var(--obrys);
+  border-radius: var(--promien);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  color: var(--tekst-cichy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
