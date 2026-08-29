@@ -1,17 +1,27 @@
-/* Paleta i typografia — jedno miejsce, komponenty tylko z niej korzystają. */
+/*
+ * Paleta i typografia wzięte wprost z portfolio (sitekmikolaj.pl,
+ * `portfoliostrona/app/globals.css`) — ten sam motyw terminala, którego
+ * używa też `price-alerts-web`. Dzięki temu projekty w portfolio wyglądają
+ * jak jedna rodzina, a nie trzy przypadkowe aplikacje.
+ */
 :root {
-  --tlo: #0b1020;
-  --tlo-karta: #131a30;
-  --tlo-karta-2: #1a2340;
-  --obrys: #26314f;
-  --tekst: #e8ecf8;
-  --tekst-cichy: #97a1c0;
-  --akcent: #5eead4;
-  --akcent-ciemny: #0f766e;
-  --ostrzezenie: #fbbf24;
-  --blad: #f87171;
-  --promien: 14px;
-  --cien: 0 10px 30px rgb(2 6 23 / 45%);
+  --tlo: #030712;
+  --panel: #0f172a;
+  --panel-jasny: #16203a;
+  --obrys: #1e293b;
+  --tekst: #f8fafc;
+  --tekst-cichy: #94a3b8;
+  --akcent: #10b981;
+  --akcent-ciemny: #0b7f5c;
+  --ostrzezenie: #f59e0b;
+  --blad: #ef4444;
+
+  --promien: 12px;
+  --cien: 0 4px 6px -1px rgb(0 0 0 / 50%), 0 2px 4px -1px rgb(0 0 0 / 30%);
+  --poswiata: 0 0 15px rgb(16 185 129 / 20%);
+
+  --font-tekst: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', 'Cascadia Code', Consolas, monospace;
 }
 
 * {
@@ -25,11 +35,9 @@ body {
 }
 
 body {
-  background:
-    radial-gradient(1100px 500px at 15% -10%, #16224a 0%, transparent 60%),
-    var(--tlo);
+  background-color: var(--tlo);
   color: var(--tekst);
-  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-tekst);
   line-height: 1.55;
 }
 
@@ -49,29 +57,39 @@ button {
   cursor: pointer;
 }
 
-/* Wspolne klasy uzywane przez wiecej niz jeden ekran. */
+/* ---------- Wspólne elementy ---------- */
+
 .przycisk {
   border: 1px solid var(--obrys);
-  background: var(--tlo-karta-2);
+  background-color: var(--panel-jasny);
   color: var(--tekst);
   border-radius: 10px;
   padding: 0.55rem 0.95rem;
-  transition: border-color 0.15s, transform 0.15s;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
 }
 
-.przycisk:hover {
+.przycisk:hover:not(:disabled) {
   border-color: var(--akcent-ciemny);
 }
 
-.przycisk:active {
+.przycisk:active:not(:disabled) {
   transform: translateY(1px);
 }
 
+.przycisk:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .przycisk.glowny {
-  background: linear-gradient(180deg, var(--akcent) 0%, #2dd4bf 100%);
-  border-color: transparent;
+  background-color: var(--akcent);
+  border-color: var(--akcent);
   color: #04231f;
   font-weight: 650;
+}
+
+.przycisk.glowny:hover:not(:disabled) {
+  box-shadow: var(--poswiata);
 }
 
 .przycisk.cichy {
@@ -90,7 +108,7 @@ textarea:focus-visible {
 input,
 textarea {
   width: 100%;
-  background: var(--tlo);
+  background-color: var(--tlo);
   border: 1px solid var(--obrys);
   border-radius: 10px;
   color: var(--tekst);
@@ -98,8 +116,13 @@ textarea {
   padding: 0.6rem 0.75rem;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: var(--tekst-cichy);
+}
+
 .karta {
-  background: var(--tlo-karta);
+  background-color: var(--panel);
   border: 1px solid var(--obrys);
   border-radius: var(--promien);
   padding: 1.1rem 1.25rem;
@@ -117,9 +140,41 @@ textarea {
   color: var(--tekst-cichy);
 }
 
+/*
+ * Znacznik klawisza. Wcześniej był szary tekst na ciemnym tle w środku
+ * przycisku — praktycznie niewidoczny, więc podpowiedź o skrócie nie działała.
+ * Teraz ma własne tło, obrys i kolor akcentu.
+ */
+kbd {
+  display: inline-block;
+  min-width: 1.6rem;
+  padding: 0.1rem 0.45rem;
+  border: 1px solid var(--akcent-ciemny);
+  border-bottom-width: 2px;
+  border-radius: 6px;
+  background-color: rgb(16 185 129 / 12%);
+  color: var(--akcent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
     transition: none !important;
   }
+}
+
+/*
+ * Klawisz w środku głównego (zielonego) przycisku. Bez tego zielony znacznik
+ * na zielonym tle był nie do odczytania — a to właśnie tam wisi podpowiedź
+ * „spacja", czyli najważniejszy skrót w całej aplikacji.
+ */
+.przycisk.glowny kbd {
+  border-color: rgb(4 35 31 / 45%);
+  background-color: rgb(4 35 31 / 20%);
+  color: #04231f;
 }
