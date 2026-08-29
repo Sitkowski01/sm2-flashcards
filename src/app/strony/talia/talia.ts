@@ -56,8 +56,15 @@ export class TaliaStrona {
   protected readonly komunikat = signal('');
 
   protected async generuj(): Promise<void> {
+    if (this.pracuje()) return;
+
     const tekst = this.tekst().trim();
-    if (!tekst || this.pracuje()) return;
+    if (!tekst) {
+      // Wczesniej przycisk byl w tym stanie wylaczony i klikniecie nie robilo
+      // nic — bez zadnego komunikatu. To czytalo sie jak zepsuta aplikacja.
+      this.komunikat.set("Najpierw wklej tekst w pole powyżej.");
+      return;
+    }
 
     this.pracuje.set(true);
     this.komunikat.set('');
@@ -76,6 +83,18 @@ export class TaliaStrona {
     } finally {
       this.pracuje.set(false);
     }
+  }
+
+  /** Wstawia gotowy tekst, zeby dalo sie zobaczyc dzialanie bez szukania wlasnego. */
+  protected wstawPrzykladowyTekst(): void {
+    this.tekst.set(
+      'Sygnał to obiekt, który trzyma wartość i sam powiadamia o jej zmianie. ' +
+        'Computed to sygnał wyliczany z innych sygnałów. ' +
+        'Effect to reakcja na zmianę sygnału, przeznaczona na skutki uboczne. ' +
+        'Zoneless oznacza aplikację, która nie używa zone.js do wykrywania zmian.',
+    );
+    this.komunikat.set('');
+    this.propozycje.set([]);
   }
 
   protected odrzuc(index: number): void {
