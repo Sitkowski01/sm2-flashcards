@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Sitkowski01/recall-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/Sitkowski01/recall-lab/actions/workflows/ci.yml)
 
-**[Demo na żywo →](https://sitkowski01.github.io/recall-lab/)**
+**[Demo na żywo →](https://recall-lab-liart.vercel.app/)**
 
 Aplikacja do nauki fiszkami, w której karta wraca dokładnie wtedy, kiedy zaczynasz ją
 zapominać. Odstęp wylicza **SM-2** — ten sam algorytm powtórek, który opisał Piotr Woźniak
@@ -139,7 +139,7 @@ npm run build      # build produkcyjny
 | Język | TypeScript 6 w trybie `strict` |
 | Testy | Vitest + Angular TestBed |
 | CI | GitHub Actions — testy i build |
-| Wdrożenie | GitHub Pages |
+| Wdrożenie | Vercel (produkcja) + GitHub Pages |
 
 ## Co dalej
 
