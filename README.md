@@ -107,7 +107,7 @@ Wybory, o które najczęściej pytają:
 
 ## Testy
 
-**82 testy, wszystkie zielone.** Vitest, bez przeglądarki.
+**83 testy, wszystkie zielone.** Vitest, bez przeglądarki.
 
 ```bash
 npm test
@@ -115,7 +115,8 @@ npm test
 
 - **algorytm** (24) — każda z trzech pułapek osobno, determinizm, niezmienność wejścia,
   punkt równowagi przy ocenie 4
-- **magazyn** (20) — oceny nie ruszają sąsiednich kart, kolejność od najbardziej zaległej,
+- **magazyn** (22) — w tym: pierwsze wejście wczytuje przykłady, ale skasowanie
+  wszystkich talii ich nie odtwarza — oceny nie ruszają sąsiednich kart, kolejność od najbardziej zaległej,
   statystyki pustej talii dają zero zamiast `NaN`, uszkodzony zapis nie wywraca startu
 - **generator** (19) — heurystyka i walidacja odpowiedzi modelu
 - **sesja powtórek** (16) — że nie da się ocenić karty przed odkryciem odpowiedzi,

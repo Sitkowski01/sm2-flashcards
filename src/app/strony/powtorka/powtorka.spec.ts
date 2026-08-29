@@ -33,7 +33,7 @@ describe('Powtorka', () => {
   let talia: Talia;
 
   async function zbuduj(ileKart: number) {
-    globalThis.localStorage?.clear();
+    globalThis.localStorage?.setItem('recall-lab/talie/v1', '[]');
 
     // ActivatedRoute musi byc podany PRZED pierwszym injectem, bo TestBed
     // po instancjacji nie przyjmuje juz overrideProvider. Identyfikator talii

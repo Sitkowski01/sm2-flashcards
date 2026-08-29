@@ -2,6 +2,7 @@ import { computed, effect, Injectable, signal } from '@angular/core';
 
 import { Karta, nowyId, StatystykiTalii, Talia } from './modele';
 import { czyDoPowtorki, Ocena, poOdpowiedzi, stanPoczatkowy } from './sm2';
+import { PRZYKLADOWE_TALIE } from './przyklady';
 
 const KLUCZ = 'recall-lab/talie/v1';
 
@@ -128,13 +129,33 @@ export class Magazyn {
   private wczytaj(): Talia[] {
     try {
       const surowe = globalThis.localStorage?.getItem(KLUCZ);
-      if (!surowe) return [];
+
+      // Pierwsze wejscie: zamiast pustego ekranu z przyciskiem, ktory latwo
+      // przeoczyc, aplikacja od razu ma czym dzialac. Skasowanie wszystkich
+      // talii juz sie nie odtwarza — decyduje obecnosc klucza, nie dlugosc listy.
+      if (surowe === null) return this.przykladoweTalie();
+
       const dane = JSON.parse(surowe);
       return Array.isArray(dane) ? (dane as Talia[]) : [];
     } catch {
       // Uszkodzony wpis nie moze wywrocic startu aplikacji — lepiej pusto niz bialy ekran.
       return [];
     }
+  }
+
+  private przykladoweTalie(teraz: Date = new Date()): Talia[] {
+    return PRZYKLADOWE_TALIE.map((p) => ({
+      id: nowyId(),
+      nazwa: p.nazwa,
+      opis: p.opis,
+      karty: p.karty.map((k) => ({
+        id: nowyId(),
+        przod: k.przod,
+        tyl: k.tyl,
+        zrodlo: 'reczna' as const,
+        stan: stanPoczatkowy(teraz),
+      })),
+    }));
   }
 
   private zapisz(talie: Talia[]): void {
