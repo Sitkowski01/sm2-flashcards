@@ -1,6 +1,6 @@
 # Recall Lab — powtórki rozłożone w czasie
 
-[![CI](https://github.com/Sitkowski01/recall-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/Sitkowski01/recall-lab/actions/workflows/ci.yml)
+[![CI](https://github.com/Sitkowski01/sm2-flashcards/actions/workflows/ci.yml/badge.svg)](https://github.com/Sitkowski01/sm2-flashcards/actions/workflows/ci.yml)
 
 **[Demo na żywo →](https://recall-lab-liart.vercel.app/)**
 
